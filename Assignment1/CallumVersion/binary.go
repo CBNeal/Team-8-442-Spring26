@@ -3,8 +3,12 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"os"
+	"strings"
+	"bufio"
 )
-
+// I dont think importing strings is strictly necessary but I am using it for the string builder type
+// bufio is for the scanner stuff
 func decode(input string, sizeChunk int) string{
 	var result []rune
 
@@ -19,7 +23,7 @@ func decode(input string, sizeChunk int) string{
 
 		if val == 8 { 
 			if len(result) > 0 {
-				result = result[:len(result)-1]
+				result = result[:len(result)-1] // I just shrinked the array by 1 to handle backspaces
 			}
 		}else{
 			result = append(result, rune(val))
@@ -31,9 +35,21 @@ func decode(input string, sizeChunk int) string{
 
 
 func main() {
-	fmt.Println(decode("100100011001011101100110110011011110100000101011111011111110010110110011001000100001", 7))
-	//Just the first test file I didn't want to deal with input yet
+
+	scanner := bufio.NewScanner(os.Stdin) 
+	var input strings.Builder
+
+	for scanner.Scan(){		//Using scanner.scan to just run until the end of the bin string no matter the length
+		line := scanner.Text()
+		fmt.Println(line)
+		input.WriteString(line)
+	}
+		
+	input2 := input.String() 
+	fmt.Println(input2)
+	
+	fmt.Println(decode(input2, 7))
 	fmt.Println("________________________________________________________________________________________________")
-	fmt.Println(decode("100100011001011101100110110011011110100000101011111011111110010110110011001000100001", 8))
+	fmt.Println(decode(input2, 8))
 	
 }
