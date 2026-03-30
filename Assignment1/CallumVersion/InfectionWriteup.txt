@@ -1,0 +1,3 @@
+Infection Writeup
+
+	The Infection Code is a c program that creates a loop that never ends. Everytime it runs it calls argv[0], which is the name of the file, creating a new instance of the code running. This seemingly could be used by attackers to run through system resources, slowing down preformance. If we were making safeguards against an attack such as this we would create a limit to the amount of instances a user can create. This can be done simply and permanantly in linux by editing the security/limits.conf file. For windows it is as simple as using the Windows API.

@@ -41,12 +41,10 @@ func main() {
 
 	for scanner.Scan(){		//Using scanner.scan to just run until the end of the bin string no matter the length
 		line := scanner.Text()
-		fmt.Println(line)
 		input.WriteString(line)
 	}
 		
 	input2 := input.String() 
-	fmt.Println(input2)
 	
 	fmt.Println(decode(input2, 7))
 	fmt.Println("________________________________________________________________________________________________")
