@@ -10,9 +10,10 @@ import (
 )
 
 var L_alphabet_array [26]string = InitAlphabetArray(true)  // a constant to refer to throughout program
-var U_alphabet_array [26]string = InitAlphabetArray(false) // a constant to refer to throughout program
+var U_alphabet_array [26]string = InitAlphabetArray(false) // same as above, uppercase
 var KEY string
 
+/* A function to initialize the alphabet arrays */
 func InitAlphabetArray(lowercase bool) [26]string {
 	var result [26]string
 	var start_index int
@@ -29,6 +30,7 @@ func InitAlphabetArray(lowercase bool) [26]string {
 	return result
 }
 
+/* A function to decode the input string */
 func DecodeIn(plaintext string) string {
 	//decoding formula P = (c - k + 26) % 26
 	var result string
@@ -70,6 +72,7 @@ func DecodeIn(plaintext string) string {
 	return result
 }
 
+/*A function to encode an incoming string */
 func EncodeIn(plaintext string) string {
 	//same exact thing as before but the math at the end is different P = = 26 + c - k) % 26
 	var result string
@@ -90,14 +93,13 @@ func EncodeIn(plaintext string) string {
 
 		var character string = string(plaintext[i])
 
-		//check case of character. this is a really stupid way of doing this idgaf
 		alphabet_array = CheckCase(character)
 
 		//find index of character in alphabet array
 		character_index := slices.Index(alphabet_array[:], character)
 
-		//navigating the key and returning its index. maybe I'll have it wrap around? idk
-		key_character := string(KEY[key_position%len(KEY)]) //this is redundant now but. oh well
+		//navigating the key and returning its index
+		key_character := string(KEY[key_position%len(KEY)])
 		key_index := slices.Index(L_alphabet_array[:], key_character)
 		key_position++
 
@@ -127,7 +129,7 @@ func main() {
 	args := os.Args[1:]
 
 	if len(args) != 2 {
-		panic("too many arguments")
+		panic("invalid number of arguments")
 	}
 
 	flag := args[0]
