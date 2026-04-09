@@ -13,7 +13,7 @@ var config = goftp.Config{
 
 
 func FtpConnect() {
-	conn, err := goftp.DialConfig(config, "138.47.99.21:21")
+	conn, err := goftp.DialConfig(config, "localhost:21")
 	if err != nil {
 		return
 	}
@@ -25,7 +25,8 @@ func FtpConnect() {
 
 	for i := 0; i < len(entries); i++{
 		a := entries[i]
-		fmt.Println(a.Name)
+		fmt.Println(a.Name())
+		fmt.Printf("%s %s", a.Mode(), a.Name())
 	}
 
 }
