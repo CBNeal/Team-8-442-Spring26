@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/secsy/goftp"
-
+	"strconv"
 )
 
 const ( 
@@ -11,6 +11,8 @@ const (
 
 	// The Decode number chooses whether it is decoding 7 or 10 bits
 	decodenum = '7'
+	// Used for testing, this allows you to choose the directory
+	Dir = "/7"
 )
 
 var config = goftp.Config{
@@ -25,7 +27,7 @@ func FtpConnect() {
 		return
 	}
 
-	entries, err := conn.ReadDir("/7")
+	entries, err := conn.ReadDir(Dir)
 	if err != nil {
 		return
 	}
@@ -33,17 +35,27 @@ func FtpConnect() {
 	for i := 0; i < len(entries); i++{
 		entry  := entries[i].Mode()
 		
-		fmt.Printf("%s\n", entry)
 		a := entry.String()
 		workingword := ""
 		for k := 3; k < len(a); k++{
+
 			if a[k] != '-'{
 				workingword += "1"
 			}else{
 				workingword += "0"
 			}
 		}
-		fmt.Printf("%s\n", workingword)
+
+		decimal, err := strconv.ParseUint(workingword, 2,8)
+		fmt.Println(decimal)
+		if err != nil {
+			return
+		}
+
+		//char := string(rune(decimal))
+
+		//fmt.Print(char)
+
 
 
 	}
