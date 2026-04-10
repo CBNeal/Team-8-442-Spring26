@@ -10,7 +10,7 @@ const (
 	Address = "138.47.99.21"
 
 	// The Decode number chooses whether it is decoding 7 or 10 bits
-	decodenum = '7'
+	decodenum = "7"
 	// Used for testing, this allows us to choose the directory
 	// Set to /7 or /10 in order to test off the schools ftp Server
 	Dir = "/7"
