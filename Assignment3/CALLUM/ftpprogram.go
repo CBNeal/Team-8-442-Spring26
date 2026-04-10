@@ -11,7 +11,8 @@ const (
 
 	// The Decode number chooses whether it is decoding 7 or 10 bits
 	decodenum = '7'
-	// Used for testing, this allows you to choose the directory
+	// Used for testing, this allows us to choose the directory
+	// Set to /7 or /10 in order to test off the schools ftp Server
 	Dir = "/7"
 )
 
@@ -20,46 +21,58 @@ var config = goftp.Config{
 	Password: "",
 }
 
-
 func FtpConnect() {
 	conn, err := goftp.DialConfig(config, Address)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
+	defer conn.Close()
 
 	entries, err := conn.ReadDir(Dir)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 
-	for i := 0; i < len(entries); i++{
-		entry  := entries[i].Mode()
-		
-		a := entry.String()
-		workingword := ""
-		for k := 3; k < len(a); k++{
+	fullBinary := ""
 
-			if a[k] != '-'{
+	for i := 0; i < len(entries); i++ {
+		entry := entries[i].Mode()
+		a := entry.String()
+
+		if len(a) < 10 {
+			continue
+		}
+
+		workingword := ""
+		for k := len(a) - 9; k < len(a); k++ {
+			if a[k] != '-' {
 				workingword += "1"
-			}else{
+			} else {
 				workingword += "0"
 			}
 		}
 
-		decimal, err := strconv.ParseUint(workingword, 2,8)
-		fmt.Println(decimal)
-		if err != nil {
-			return
-		}
-
-		//char := string(rune(decimal))
-
-		//fmt.Print(char)
-
-
-
+		fullBinary += workingword
 	}
 
+	chunkSize := 7
+	if decodenum == "10" { 
+		chunkSize = 10
+	}
+
+	for i := 0; i+chunkSize <= len(fullBinary); i += chunkSize {
+		chunk := fullBinary[i : i+chunkSize]
+
+		decimal, err := strconv.ParseUint(chunk, 2, 8)
+		if err != nil {
+			continue
+		}
+
+		char := string(rune(decimal))
+		fmt.Print(char)
+	}
 }
 
 func main() {
