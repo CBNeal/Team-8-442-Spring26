@@ -1,66 +1,74 @@
 package main
 
-
 import (
 	"fmt"
 	"github.com/secsy/goftp"
 	"strconv"
 )
 
-const ( 
+const (
 	Address = "138.47.99.21"
 
-	// The Decode number chooses whether it is decoding 7 or 10 bits
-	decodenum = '7'
-	// Used for testing, this allows you to choose the directory
+	decodenum = 7
+
 	Dir = "/7"
 )
 
 var config = goftp.Config{
-	User: "anonymous",
+	User:     "anonymous",
 	Password: "",
 }
-
 
 func FtpConnect() {
 	conn, err := goftp.DialConfig(config, Address)
 	if err != nil {
+		fmt.Println("Connection error:", err)
 		return
 	}
+	defer conn.Close()
 
 	entries, err := conn.ReadDir(Dir)
 	if err != nil {
+		fmt.Println("ReadDir error:", err)
 		return
 	}
 
-	for i := 0; i < len(entries); i++{
-		entry  := entries[i].Mode()
-		
-		a := entry.String()
-		workingword := ""
-		for k := 3; k < len(a); k++{
+	fullBinary := ""
 
-			if a[k] != '-'{
+	for i := 0; i < len(entries); i++ {
+		entry := entries[i].Mode()
+
+		a := entry.String()
+		if len(a) < 10 {
+			continue
+		}
+
+		workingword := ""
+		for k := 3; k < len(a); k++ {
+			if a[k] != '-' {
 				workingword += "1"
-			}else{
+			} else {
 				workingword += "0"
 			}
 		}
 
-		decimal, err := strconv.ParseUint(workingword, 2,8)
-		fmt.Println(decimal)
-		if err != nil {
-			return
-		}
-
-		//char := string(rune(decimal))
-
-		//fmt.Print(char)
-
-
-
+		fullBinary += workingword
 	}
 
+	message := ""
+
+	for i := 0; i+decodenum <= len(fullBinary); i += decodenum {
+		chunk := fullBinary[i : i+decodenum]
+
+		decimal, err := strconv.ParseUint(chunk, 2, 32)
+		if err != nil {
+			continue
+		}
+
+		message += string(rune(decimal))
+	}
+
+	fmt.Println(message)
 }
 
 func main() {
