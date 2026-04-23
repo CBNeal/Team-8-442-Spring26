@@ -61,13 +61,14 @@ func main() {
 			}
 		}
 
-		fmt.Println("Disconnected")
 
 		_ = timedelays
 
 		_ = bits
 		
 	}
+	fmt.Println()
+	fmt.Println("Disconnected")
 
 		
 
