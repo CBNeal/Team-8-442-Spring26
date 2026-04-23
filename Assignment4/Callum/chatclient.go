@@ -28,8 +28,8 @@ func main() {
 
 	Scanner := bufio.NewReader(conn)
 	
-	var timedelays []float64
 	var bits []int
+	var timedelays []float64
 	var NormalMessage strings.Builder
 
 	prev := time.Now()
@@ -54,6 +54,8 @@ func main() {
 
 		timedelays = append(timedelays, delay)
 
+
+
 		messageCheck := NormalMessage.String()
 		if len(messageCheck) >= 3{
 			if messageCheck[len(messageCheck)-3:] == "EOF"{
@@ -64,13 +66,53 @@ func main() {
 
 		_ = timedelays
 
-		_ = bits
 		
 	}
 	fmt.Println()
 	fmt.Println("Disconnected")
 
+	// Im just taking the min and max delays average as a midpoint
+
+	minD := timedelays[0]
+	maxD := timedelays[0]
+
+	for i := 0; i < len(timedelays); i++{
+		if timedelays[i] < minD{
+			minD = timedelays[i]
+		}
+		if timedelays[i] > maxD{
+			maxD = timedelays[i]
+		}
+	}
+
+	//fmt.Println(minD)
+	//fmt.Println(maxD)
+
+	midpoint := (maxD + minD)/2.0
+
+	for i := 0; i < len(timedelays); i++{
+		if timedelays[i] < midpoint{
+			bits = append(bits, 0)
+		}
+		else{
+			bits = append(bits, 1)
+		}
+	}
+	
+	var index int
+	var finalMessage strings.Builder
+	var b byte
+	for i := 0; i < len(bits); i++{
+		if index == 8{
+			finalMesssage.WriteByte(PLACEHOLDER)
+			index = 0
+			b = 0
+		}
 		
+
+
+
+	
 
 
 }
