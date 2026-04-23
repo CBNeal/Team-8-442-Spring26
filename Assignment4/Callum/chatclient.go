@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net"
 	"bufio"
+	"time"
+	"strings"
 	
 )
 
@@ -25,12 +27,12 @@ func main() {
 	fmt.Println()
 
 	Scanner := bufio.NewReader(conn)
-	/*
-	var ActualMessage []rune
-	var timdelays []float64
+	
+	var timedelays []float64
 	var bits []int
-	*/
-	//prev := time.Now()
+	var NormalMessage strings.Builder
+
+	prev := time.Now()
 
 	for {
 		bit, err := Scanner.ReadByte()
@@ -38,20 +40,33 @@ func main() {
 			return
 		}
 		// This is the actual calc for the time delay
-		/*
+		
 		now := time.Now()
 		delay := now.Sub(prev).Seconds()
 		prev = now
-		*/
+		
 
 
-		char := rune(bit)
+		char := string(bit)
+		NormalMessage.WriteByte(bit)
 		fmt.Print(char)
-		/*
-		ActualMessage += char
+		
 
-		timdelays = append(timdelay, delay)
-	*/	
+		timedelays = append(timedelays, delay)
+
+		messageCheck := NormalMessage.String()
+		if len(messageCheck) >= 3{
+			if messageCheck[len(messageCheck)-3:] == "EOF"{
+				break
+			}
+		}
+
+		fmt.Println("Disconnected")
+
+		_ = timedelays
+
+		_ = bits
+		
 	}
 
 		
