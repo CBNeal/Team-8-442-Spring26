@@ -93,26 +93,12 @@ func main() {
 	for i := 0; i < len(timedelays); i++{
 		if timedelays[i] < midpoint{
 			bits = append(bits, 0)
-		}
-		else{
+		}else{
 			bits = append(bits, 1)
 		}
 	}
 	
-	var index int
-	var finalMessage strings.Builder
-	var b byte
-	for i := 0; i < len(bits); i++{
-		if index == 8{
-			finalMesssage.WriteByte(PLACEHOLDER)
-			index = 0
-			b = 0
-		}
-		
-
-
+	fmt.Println(bits)
+}
 
 	
-
-
-}
