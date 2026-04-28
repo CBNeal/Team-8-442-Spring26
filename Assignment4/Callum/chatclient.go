@@ -10,7 +10,9 @@ import (
 )
 
 const (
-	add = "138.47.99.21:31337")
+	add = "138.47.99.31:12321"
+	
+)
 
 func main() {
 
@@ -28,6 +30,12 @@ func main() {
 
 	Scanner := bufio.NewReader(conn)
 	
+
+	_, err = conn.Write([]byte("Deimos\n"))
+	if err != nil {
+		panic(err)
+	}
+
 	var bits []int
 	var timedelays []float64
 	var NormalMessage strings.Builder
@@ -66,13 +74,15 @@ func main() {
 
 		_ = timedelays
 
-		
 	}
 	fmt.Println()
 	fmt.Println("Disconnected")
 
 	// Im just taking the min and max delays average as a midpoint
-
+	for i:= 0; i < len(timedelays); i++{
+		fmt.Println(timedelays[i])
+	}
+	
 	minD := timedelays[0]
 	maxD := timedelays[0]
 
@@ -87,18 +97,32 @@ func main() {
 
 	//fmt.Println(minD)
 	//fmt.Println(maxD)
+	midpoint := (maxD + minD) / 2.0
 
-	midpoint := (maxD + minD)/2.0
-
-	for i := 0; i < len(timedelays); i++{
-		if timedelays[i] < midpoint{
-			bits = append(bits, 0)
-		}else{
-			bits = append(bits, 1)
-		}
+	_= midpoint 
+	fmt.Println()
+	for i := 0; i < len(timedelays); i++ {
+    	if timedelays[i] < .01{
+        	bits = append(bits, 0)
+    	} else {
+        	bits = append(bits, 1)
+    	}
 	}
-	
+
 	fmt.Println(bits)
+
+var finalstring []rune
+
+for i := 0; i+8 <= len(bits); i += 8 {
+    var b byte = 0
+    for j := 0; j < 8; j++ {
+        b = (b << 1) | byte(bits[i+j])  // shift left and OR in the next bit
+    }
+    if b != 0 {  // skip null bytes/padding
+        finalstring = append(finalstring, rune(b))
+    }
 }
 
-	
+fmt.Println(string(finalstring))
+
+}	
