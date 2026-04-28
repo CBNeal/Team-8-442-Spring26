@@ -5,11 +5,14 @@ package main
 import (
 	"fmt"
 	"time"
+	"strconv"
+	"bufio"
+	"os"
 
 )
 const(
 	Epoch = "2017 01 01 00 00 00"
-	SystemTime = "2017 03 23 18 02 06"
+	//SystemTime = "2017 03 23 18 02 06"
 )
 
 func TimeTake(x string)(string, string, string, string, string, string){
@@ -39,6 +42,40 @@ func TimeTake(x string)(string, string, string, string, string, string){
 	return Year, Month, Day, Hour, Minute, Second
 
 }
+
+func TurnToTime(Time string)(time.Time){
+// Parse the two strings into actual time Variables
+	// Interim values that are still strings
+	var IEY, IEM, IED, IEH, IEMI, IES = TimeTake(Time)
+
+
+	// Parse into ints
+
+	EY, err := strconv.Atoi(IEY)
+	if err != nil{
+		return}
+	EM, err := strconv.Atoi(IEM)
+	if err != nil{
+		return}
+	ED, err := strconv.Atoi(IED)
+	if err != nil{
+		return}
+	EH, err := strconv.Atoi(IEH)
+	if err != nil{
+		return}
+	EMI, err := strconv.Atoi(IEMI)
+	if err != nil{
+		return}
+	ES, err := strconv.Atoi(IES)
+	if err != nil{
+		return}
+	// You need to cast EM as a Month variable, Ive named it EpochMonthFinal
+	EMF := time.Month(EM)
+	EpochTime := time.Date(EY, EM, ED, EH, EMI, ES, 0, local)
+	return EpochTime
+}
+
+	
 			
 func main(){
 	local, err := time.LoadLocation("America/Chicago")
@@ -46,19 +83,36 @@ func main(){
 			fmt.Println("ISSUE WITH TIMEZONE LOAD")
 		}
 
-	//final := SystemTime.Sub(Epoch).Seconds()
+	// Parse the two strings into actual time Variables
+	// Interim values that are still strings
+	var IEY, IEM, IED, IEH, IEMI, IES = TimeTake(Epoch)
 
-	_ = local
-	//_ = final
-	_ = Epoch
-	
-	var1, var2, var3, var4, var5, var6 := TimeTake(SystemTime)
-	fmt.Println(var1)
-	fmt.Println(var2)
-	fmt.Println(var3)
-	fmt.Println(var4)
-	fmt.Println(var5)
-	fmt.Println(var6)
+
+	// Parse into ints
+
+	EY, err := strconv.Atoi(IEY)
+	if err != nil{
+		return}
+	EM, err := strconv.Atoi(IEM)
+	if err != nil{
+		return}
+	ED, err := strconv.Atoi(IED)
+	if err != nil{
+		return}
+	EH, err := strconv.Atoi(IEH)
+	if err != nil{
+		return}
+	EMI, err := strconv.Atoi(IEMI)
+	if err != nil{
+		return}
+	ES, err := strconv.Atoi(IES)
+	if err != nil{
+		return}
+	// You need to cast EM as a Month variable, Ive named it EpochMonthFinal
+	EMF := time.Month(EM)
+	EpochTime := time.Date(EY, EM, ED, EH, EMI, ES, 0, local)
+
+
 	
 
 
