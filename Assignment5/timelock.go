@@ -7,8 +7,18 @@ import (
 	"time"
 	"strconv"
 	"os"
+	"crypto/md5"
+	"encoding/hex"
 
 )
+
+
+func MD5(seconds string) string{
+	hash := md5.New()
+	hash.Write([]byte(seconds))
+	return hex.EncodeToString(hash.Sum(nil))
+}
+
 
 			
 func main(){
@@ -53,7 +63,11 @@ func main(){
 	fmt.Println(EpochTime)
 
 	diff := SystemTimeTest.Sub(EpochTime)
-	fmt.Println(diff.Seconds())
+	diffSeconds := int(diff.Seconds())
+	fmt.Println(diffSeconds)
+
+	InterimSeconds := MD5(MD5(strconv.Itoa(diffSeconds)))
+	fmt.Println(InterimSeconds)
 
 
 }
