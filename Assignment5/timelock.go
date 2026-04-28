@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 	"strconv"
-	"os"
+	//"os"
 	"crypto/md5"
 	"encoding/hex"
 
@@ -28,14 +28,19 @@ func main(){
 			fmt.Println("ISSUE WITH TIMEZONE LOAD")
 		}
 	SystemTimeTest := time.Date(2017, time.Month(03), 23, 18, 02, 06, 00, local)
-	//var IEY, IEM, IED, IEH, IEMI, IES = TimeTake(Epoch)
+	var EY, EM, ED, EH, EMI, ES int 
+	fmt.Scan(&EY, &EM, &ED, &EH, &EMI, &ES )
+
+	/*
+
+
+--------------------------NOT NECESSARY USED FOR CODE TEST ----------
 	IEY := os.Args[1]
 	IEM := os.Args[2]
 	IED := os.Args[3]
 	IEH := os.Args[4]
 	IEMI := os.Args[5]
 	IES := os.Args[6] 
-
 
 	// Parse into ints
 
@@ -57,13 +62,15 @@ func main(){
 	ES, err := strconv.Atoi(IES)
 	if err != nil{
 		return}
+------------------------------------------------------------------
+*/
 	// You need to cast EM as a Month variable, Ive named it EpochMonthFinal
 	EMF := time.Month(EM)
 	EpochTime := time.Date(EY, EMF, ED, EH, EMI, ES, 0, local)
 	fmt.Println(EpochTime)
 
 	diff := SystemTimeTest.Sub(EpochTime)
-	diffSeconds := int(diff.Seconds())
+	diffSeconds := (int(diff.Seconds()) / 60) * 60
 	fmt.Println(diffSeconds)
 
 	InterimSeconds := MD5(MD5(strconv.Itoa(diffSeconds)))
