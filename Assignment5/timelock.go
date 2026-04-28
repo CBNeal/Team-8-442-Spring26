@@ -9,9 +9,6 @@ import (
 	"os"
 
 )
-const(
-	//SystemTime = "2017 03 23 18 02 06"
-)
 
 			
 func main(){
@@ -20,7 +17,7 @@ func main(){
 		if err != nil{
 			fmt.Println("ISSUE WITH TIMEZONE LOAD")
 		}
-
+	SystemTimeTest := time.Date(2017, time.Month(03), 23, 18, 02, 06, 00, local)
 	//var IEY, IEM, IED, IEH, IEMI, IES = TimeTake(Epoch)
 	IEY := os.Args[1]
 	IEM := os.Args[2]
@@ -54,6 +51,10 @@ func main(){
 	EMF := time.Month(EM)
 	EpochTime := time.Date(EY, EMF, ED, EH, EMI, ES, 0, local)
 	fmt.Println(EpochTime)
+
+	diff := SystemTimeTest.Sub(EpochTime)
+	fmt.Println(diff.Seconds())
+
 
 }
 	
