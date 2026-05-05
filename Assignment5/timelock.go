@@ -24,7 +24,14 @@ func main(){
 
 	local := time.Local
 
-	SystemTimeTest := time.Date(2015, time.Month(01), 01, 00, 01, 00, 00, local)
+	
+	// ---------------------------------------------------SYSTEM TIME TEST VARIABLE TO BE USED IN TESTING ---------------------------------------
+	//SystemTimeTest := time.Date(2015, time.Month(01), 01, 00, 01, 00, 00, local)
+	SystemTimeTest := time.Now().In(local)
+	//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 	var EY, EM, ED, EH, EMI, ES int 
 	fmt.Scan(&EY, &EM, &ED, &EH, &EMI, &ES )
 
