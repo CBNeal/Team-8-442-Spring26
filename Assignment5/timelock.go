@@ -19,14 +19,11 @@ func MD5(seconds string) string{
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
-
 			
 func main(){
 
-	local, err := time.LoadLocation("America/Chicago")
-		if err != nil{
-			fmt.Println("ISSUE WITH TIMEZONE LOAD")
-		}
+	local := time.Local
+
 	SystemTimeTest := time.Date(2017, time.Month(03), 23, 18, 02, 06, 00, local)
 	var EY, EM, ED, EH, EMI, ES int 
 	fmt.Scan(&EY, &EM, &ED, &EH, &EMI, &ES )
@@ -76,6 +73,8 @@ func main(){
 	InterimSeconds := MD5(MD5(strconv.Itoa(diffSeconds)))
 	fmt.Println(InterimSeconds)
 
+	TestPrint := MD5(MD5(strconv.Itoa(421137780)))
+	fmt.Println(TestPrint)
 
 }
 	
