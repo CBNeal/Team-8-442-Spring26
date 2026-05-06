@@ -19,64 +19,53 @@ func MD5(seconds string) string{
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
-
 			
 func main(){
 
-	local, err := time.LoadLocation("America/Chicago")
-		if err != nil{
-			fmt.Println("ISSUE WITH TIMEZONE LOAD")
-		}
-	SystemTimeTest := time.Date(2017, time.Month(03), 23, 18, 02, 06, 00, local)
+	local := time.Local
+
+	
+	// ---------------------------------------------------SYSTEM TIME TEST VARIABLE TO BE USED IN TESTING ---------------------------------------
+	//SystemTimeTest := time.Date(2015, time.Month(01), 01, 00, 01, 00, 00, local)
+	SystemTimeTest := time.Now().In(local)
+	//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 	var EY, EM, ED, EH, EMI, ES int 
 	fmt.Scan(&EY, &EM, &ED, &EH, &EMI, &ES )
 
-	/*
-
-
---------------------------NOT NECESSARY USED FOR CODE TEST ----------
-	IEY := os.Args[1]
-	IEM := os.Args[2]
-	IED := os.Args[3]
-	IEH := os.Args[4]
-	IEMI := os.Args[5]
-	IES := os.Args[6] 
-
-	// Parse into ints
-
-	EY, err := strconv.Atoi(IEY)
-	if err != nil{
-		return}
-	EM, err := strconv.Atoi(IEM)
-	if err != nil{
-		return}
-	ED, err := strconv.Atoi(IED)
-	if err != nil{
-		return}
-	EH, err := strconv.Atoi(IEH)
-	if err != nil{
-		return}
-	EMI, err := strconv.Atoi(IEMI)
-	if err != nil{
-		return}
-	ES, err := strconv.Atoi(IES)
-	if err != nil{
-		return}
-------------------------------------------------------------------
-*/
 	// You need to cast EM as a Month variable, Ive named it EpochMonthFinal
 	EMF := time.Month(EM)
 	EpochTime := time.Date(EY, EMF, ED, EH, EMI, ES, 0, local)
-	fmt.Println(EpochTime)
 
 	diff := SystemTimeTest.Sub(EpochTime)
 	diffSeconds := (int(diff.Seconds()) / 60) * 60
-	fmt.Println(diffSeconds)
 
 	InterimSeconds := MD5(MD5(strconv.Itoa(diffSeconds)))
-	fmt.Println(InterimSeconds)
 
+	charcount := 0
+	intcount := 0
+	finalhash := ""
 
+	for i := 0; i < len(InterimSeconds); i++ {
+			if (InterimSeconds[i] >= 'a' && InterimSeconds[i] <= 'z') || (InterimSeconds[i] >= 'A' && InterimSeconds[i] <= 'Z') {
+			if charcount < 2{
+			charcount++
+			finalhash += string(InterimSeconds[i])
+			}
+		}
+	}
+	for i := len(InterimSeconds) - 1; i >= 0; i-- {
+		if InterimSeconds[i] >= '0' && InterimSeconds[i] <= '9' {
+			if intcount < 2{
+			intcount++
+			finalhash += string(InterimSeconds[i])
+			}
+	}
+}
+
+	fmt.Println(finalhash)
 }
 	
 
