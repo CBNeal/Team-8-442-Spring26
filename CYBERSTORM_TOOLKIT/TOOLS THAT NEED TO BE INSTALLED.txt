@@ -1,0 +1,7 @@
+*CUTTER - on canvas
+*nmap - sudo apt install nmap
+*hydra - sudo apt install hydra
+*rockyou word list - on weakpass.com/wordlists/rockyou.txt
+*hashcat - sudo apt install hashcat
+*John the ripper - sudo apt install john
+*fwknop-server - sudo apt install fwknop-server
